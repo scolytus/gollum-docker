@@ -7,3 +7,7 @@ See also:
 * https://github.com/gollum/gollum/wiki
 * https://github.com/gollum/gollum/wiki/Gollum-via-Docker
 
+How to run (simple version):
+
+`sudo docker run --rm -p 8080:80 -v $(pwd):/wiki scolytus/gollum`
+
