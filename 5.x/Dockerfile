@@ -12,14 +12,17 @@ RUN mkdir -p /gollum-src \
     && git clone https://github.com/gollum/gollum \
     && cd /gollum-src/gollum-lib \
     && git checkout gollum-lib-5.x \
+    && git rev-parse --short HEAD > /gollum-lib.git.txt \
     && bundle install \
     && bundle exec rake install \
     && cd /gollum-src/gollum \
     && git checkout 5.x \
+    && git rev-parse --short HEAD > /gollum.git.txt \
     && bundle install \
     && bundle exec rake install \
     && cd / \
-    && rm -rf /gollum-src
+    && rm -rf /gollum-src \
+    && rm -rf /root/.bundle
 
 VOLUME /wiki
 
