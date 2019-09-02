@@ -3,14 +3,14 @@
 #set -e
 #set -x
 
-BASE_IMAGE="ruby:2.5"
+BASE_IMAGE="ruby:2.6"
 IMAGE="scolytus/gollum"
 
 
 
 
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-TAG="SNAPSHOT-5-${TIMESTAMP}"
+TAG="SNAPSHOT-5-26-${TIMESTAMP}"
 FULL="${IMAGE}:${TAG}"
 LATEST="${IMAGE}:5-latest"
 

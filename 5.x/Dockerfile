@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby:2.6
 
 RUN apt-get -y update \
     && apt-get -y install libicu-dev cmake \
