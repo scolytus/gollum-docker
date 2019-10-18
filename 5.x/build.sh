@@ -7,6 +7,10 @@ BASE_IMAGE="ruby:2.6"
 IMAGE="scolytus/gollum"
 
 
+SUDO=""
+if [ "$EUID" -ne 0 ]; then
+  SUDO="sudo"
+fi
 
 
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
@@ -14,12 +18,12 @@ TAG="SNAPSHOT-5-26-${TIMESTAMP}"
 FULL="${IMAGE}:${TAG}"
 LATEST="${IMAGE}:5-latest"
 
-docker pull "${BASE_IMAGE}"
+$SUDO docker pull "${BASE_IMAGE}"
 
-docker build -t "${FULL}" .
+$SUDO docker build -t "${FULL}" .
 
-docker tag "${FULL}" "${LATEST}"
+$SUDO docker tag "${FULL}" "${LATEST}"
 
-docker push "${FULL}"
-docker push "${LATEST}"
+$SUDO docker push "${FULL}"
+$SUDO docker push "${LATEST}"
 

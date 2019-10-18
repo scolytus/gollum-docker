@@ -6,8 +6,15 @@
 TAG="5-latest"
 [[ -z "${1}" ]] || TAG="${1}"
 
+
+SUDO=""
+if [ "$EUID" -ne 0 ]; then
+  SUDO="sudo"
+fi
+
+
 run() {
-  docker run --rm --entrypoint="" scolytus/gollum:"${TAG}" "$@"
+  $SUDO docker run --rm --entrypoint="" scolytus/gollum:"${TAG}" "$@"
 }
 
 VERSION_GEM=$(run gem --version)
