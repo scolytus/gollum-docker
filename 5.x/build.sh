@@ -3,7 +3,7 @@
 #set -e
 #set -x
 
-BASE_IMAGE="ruby:2.6"
+BASE_IMAGE="ruby:2.7"
 IMAGE="scolytus/gollum"
 
 
@@ -14,7 +14,7 @@ fi
 
 
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-TAG="SNAPSHOT-5-26-${TIMESTAMP}"
+TAG="SNAPSHOT-5-27-${TIMESTAMP}"
 FULL="${IMAGE}:${TAG}"
 LATEST="${IMAGE}:5-latest"
 
