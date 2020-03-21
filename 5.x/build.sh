@@ -22,6 +22,8 @@ $SUDO docker pull "${BASE_IMAGE}"
 
 $SUDO docker build -t "${FULL}" .
 
+exit -1
+
 $SUDO docker tag "${FULL}" "${LATEST}"
 
 $SUDO docker push "${FULL}"
