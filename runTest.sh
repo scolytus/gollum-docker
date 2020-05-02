@@ -3,6 +3,8 @@
 set -e
 set -x
 
+. ./functions.sh
+
 SUDO=""
 if [ "$EUID" -ne 0 ]; then
   SUDO="sudo"
@@ -12,17 +14,9 @@ TAG="latest"
 HOST_PORT="127.0.0.1:3080"
 BASE="http://${HOST_PORT}"
 TEST_WIKI="./test-wiki"
-CONTAINER="gollum-test-$(date +%Y%m%d%H%M%S)"
+CONTAINER="$(createTestContainerName)"
 
-$SUDO docker run \
-        -d \
-        --rm \
-        --name "${CONTAINER}" \
-        -v "$(pwd)/${TEST_WIKI}:/wiki" \
-        -p "${HOST_PORT}:8080" \
-        "scolytus/gollum:${TAG}" \
-        --port 8080 \
-        --emoji
+runTestContainer "${CONTAINER}" "${TAG}"
 
 sleep 2
 while ! curl "${BASE}/"; do sleep 2; done
@@ -35,4 +29,4 @@ curl "${BASE}/gollum/search?q=foo" > /dev/null
 curl "${BASE}/Page1_9" > /dev/null
 curl "${BASE}/large.bin" > /dev/null
 
-#$SUDO docker stop "${CONTAINER}"
+$SUDO docker stop "${CONTAINER}"
