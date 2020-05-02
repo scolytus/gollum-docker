@@ -3,9 +3,10 @@
 # set -e
 # set -x
 
-TAG="5-latest"
+TAG="latest"
 [[ -z "${1}" ]] || TAG="${1}"
 
+. ./functions.sh
 
 SUDO=""
 if [ "$EUID" -ne 0 ]; then
@@ -13,14 +14,8 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 
-run() {
-  $SUDO docker run --rm --entrypoint="" scolytus/gollum:"${TAG}" "$@"
-}
-
 VERSION_GEM=$(run gem --version)
 VERSION_GOLLUM=$(run gollum --versions)
-VERSION_GIT_LIB=$(run cat /gollum-lib.git.txt)
-VERSION_GIT_GOLLUM=$(run cat /gollum.git.txt)
 
 cat << __HERE__
 ## ${TAG}
@@ -31,14 +26,6 @@ cat << __HERE__
 ${VERSION_GOLLUM}
 \`\`\`
 
-
-### Commit IDs
-
-\`\`\`
-Gollum:     ${VERSION_GIT_GOLLUM}
-Gollum-Lib: ${VERSION_GIT_LIB}
-\`\`\`
-
 ### Ruby Gem Version
 
 \`\`\`
@@ -46,4 +33,3 @@ ${VERSION_GEM}
 \`\`\`
 
 __HERE__
-

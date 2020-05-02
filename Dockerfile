@@ -1,32 +1,17 @@
-FROM ruby:2.7
+ARG BASE_IMAGE=ruby:2.7
+
+FROM ${BASE_IMAGE}
 
 RUN apt-get -y update \
     && apt-get -y install libicu-dev cmake \
     && rm -rf /var/lib/apt/lists/*
 
-RUN gem install therubyracer
+RUN gem install therubyracer gollum
 
-RUN mkdir -p /gollum-src \
-    && cd /gollum-src \
-    && git clone https://github.com/gollum/gollum-lib.git \
-    && git clone https://github.com/gollum/gollum \
-    && cd /gollum-src/gollum-lib \
-    && git checkout gollum-lib-5.x \
-    && git rev-parse --short HEAD > /gollum-lib.git.txt \
-    && bundle install \
-    && bundle exec rake install \
-    && cd /gollum-src/gollum \
-    && git checkout 5.x \
-    && git rev-parse --short HEAD > /gollum.git.txt \
-    && bundle install \
-    && bundle exec rake install \
-    && cd / \
-    && rm -rf /gollum-src \
-    && rm -rf /root/.bundle
+RUN apt-get -y purge libicu-dev cmake
 
 VOLUME /wiki
 
 WORKDIR /wiki
 
 ENTRYPOINT ["gollum"]
-
