@@ -1,16 +1,32 @@
-FROM ruby:2.5
+FROM ruby:2.7
 
 RUN apt-get -y update \
     && apt-get -y install libicu-dev cmake \
     && rm -rf /var/lib/apt/lists/*
 
-RUN gem install github-linguist \
-    && gem install gollum \
-    && gem install org-ruby
+RUN gem install therubyracer
+
+RUN mkdir -p /gollum-src \
+    && cd /gollum-src \
+    && git clone https://github.com/gollum/gollum-lib.git \
+    && git clone https://github.com/gollum/gollum \
+    && cd /gollum-src/gollum-lib \
+    && git checkout gollum-lib-5.x \
+    && git rev-parse --short HEAD > /gollum-lib.git.txt \
+    && bundle install \
+    && bundle exec rake install \
+    && cd /gollum-src/gollum \
+    && git checkout 5.x \
+    && git rev-parse --short HEAD > /gollum.git.txt \
+    && bundle install \
+    && bundle exec rake install \
+    && cd / \
+    && rm -rf /gollum-src \
+    && rm -rf /root/.bundle
+
+VOLUME /wiki
 
 WORKDIR /wiki
 
-ENTRYPOINT ["gollum", "--port", "80"]
-
-EXPOSE 80
+ENTRYPOINT ["gollum"]
 
