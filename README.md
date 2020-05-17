@@ -9,5 +9,8 @@ See also:
 
 How to run (simple version):
 
-`sudo docker run --rm -p 8080:80 -v $(pwd):/wiki scolytus/gollum`
+`sudo docker run --rm -p 127.0.0.1:3080:8080 -v $(pwd):/wiki scolytus/gollum:latest --port 8080 --emoji`
 
+* the current working directory will be used as the wiki to serve
+* make sure the current working directory contains an **already initialized** git repository
+* you can access your wiki under http://localhost:3080/
